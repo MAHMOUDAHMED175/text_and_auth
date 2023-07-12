@@ -1,9 +1,10 @@
 import 'package:firebaseauth/screens/phoneauth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:provider/provider.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../know_text_from_image/text_recognization.dart';
 import '../provider/internet_provider.dart';
 import '../provider/sign_in_provider.dart';
 import '../utils/config.dart';
@@ -46,11 +47,46 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image(
+                  const Image(
                     image: AssetImage(Config.app_icon),
                     height: 80,
                     width: 80,
                     fit: BoxFit.cover,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const TextRecognization()));
+                    },
+                    child: Text("text from image"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
+                    },
+                    child: const Text("animation login"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   const SizedBox(
                     height: 20,
@@ -84,11 +120,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         controller: googleController,
                         successColor: Colors.red,
-                        width:80,
+                        width: 80,
                         elevation: 0,
                         borderRadius: 25,
                         color: Colors.red,
-                        child: Icon(
+                        child: const Icon(
                           FontAwesomeIcons.google,
                           size: 20,
                           color: Colors.white,
@@ -100,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     // facebook login button
                     SizedBox(
-                      width:80,
+                      width: 80,
                       child: RoundedLoadingButton(
                         onPressed: () {
                           handleFacebookAuth();
@@ -118,7 +154,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               size: 20,
                               color: Colors.white,
                             ),
-
                           ],
                         ),
                       ),
@@ -131,22 +166,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 // twitter loading button
-                RoundedLoadingButton(
-                  onPressed: () {
-                    handleTwitterAuth();
-                  },
-                  controller: twitterController,
-                  successColor: Colors.lightBlue,
-                  width:100,
-                  elevation: 0,
-                  borderRadius: 25,
-                  color: Colors.lightBlue,
-                  child: Icon(
-                    FontAwesomeIcons.twitter,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                ),
+                // RoundedLoadingButton(
+                //   onPressed: () {
+                //     handleTwitterAuth();
+                //   },
+                //   controller: twitterController,
+                //   successColor: Colors.lightBlue,
+                //   width:100,
+                //   elevation: 0,
+                //   borderRadius: 25,
+                //   color: Colors.lightBlue,
+                //   child: const Icon(
+                //     FontAwesomeIcons.twitter,
+                //     size: 20,
+                //     color: Colors.white,
+                //   ),
+                // ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -190,44 +225,45 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // handling twitter auth
-  Future handleTwitterAuth() async {
-    final sp = context.read<SignInProvider>();
-    final ip = context.read<InternetProvider>();
-    await ip.checkInternetConnection();
-
-    if (ip.hasInternet == false) {
-      openSnackbar(context, "Check your Internet connection", Colors.red);
-      googleController.reset();
-    } else {
-      await sp.signInWithTwitter().then((value) {
-        if (sp.hasError == true) {
-          openSnackbar(context, sp.errorCode.toString(), Colors.red);
-          twitterController.reset();
-        } else {
-          // checking whether user exists or not
-          sp.checkUserExists().then((value) async {
-            if (value == true) {
-              // user exists
-              await sp.getUserDataFromFirestore(sp.uid).then((value) => sp
-                  .saveDataToSharedPreferences()
-                  .then((value) => sp.setSignIn().then((value) {
-                        twitterController.success();
-                        handleAfterSignIn();
-                      })));
-            } else {
-              // user does not exist
-              sp.saveDataToFirestore().then((value) => sp
-                  .saveDataToSharedPreferences()
-                  .then((value) => sp.setSignIn().then((value) {
-                        twitterController.success();
-                        handleAfterSignIn();
-                      })));
-            }
-          });
-        }
-      });
-    }
-  }
+  // Future handleTwitterAuth() async {
+  //   final sp = context.read<SignInProvider>();
+  //   final ip = context.read<InternetProvider>();
+  //   await ip.checkInternetConnection();
+  //
+  //   if (ip.hasInternet == false) {
+  //     openSnackbar(context, "Check your Internet connection", Colors.red);
+  //     googleController.reset();
+  //   } else {
+  //     print("signInWithTwitterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+  //     await sp.signInWithTwitter().then((value) {
+  //       if (sp.hasError == true) {
+  //         openSnackbar(context, sp.errorCode.toString(), Colors.red);
+  //         twitterController.reset();
+  //       } else {
+  //         // checking whether user exists or not
+  //         sp.checkUserExists().then((value) async {
+  //           if (value == true) {
+  //             // user exists
+  //             await sp.getUserDataFromFirestore(sp.uid).then((value) => sp
+  //                 .saveDataToSharedPreferences()
+  //                 .then((value) => sp.setSignIn().then((value) {
+  //                       twitterController.success();
+  //                       handleAfterSignIn();
+  //                     })));
+  //           } else {
+  //             // user does not exist
+  //             sp.saveDataToFirestore().then((value) => sp
+  //                 .saveDataToSharedPreferences()
+  //                 .then((value) => sp.setSignIn().then((value) {
+  //                       twitterController.success();
+  //                       handleAfterSignIn();
+  //                     })));
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   // handling google sigin in
   Future handleGoogleSignIn() async {

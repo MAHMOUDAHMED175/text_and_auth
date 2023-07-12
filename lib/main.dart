@@ -5,6 +5,7 @@ import 'package:firebaseauth/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'animationlogin/login_screen.dart';
 import 'know_text_from_image/text_recognization.dart';
 
 void main() async {
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: const MaterialApp(
-        home: TextRecognization(),
+        home: LoginScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

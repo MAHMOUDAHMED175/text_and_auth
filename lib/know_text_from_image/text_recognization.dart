@@ -112,5 +112,6 @@ class _TextRecognizationState extends State<TextRecognization> {
                 ),
               ]),
         )));
+    //2+1=4
   }
 }
